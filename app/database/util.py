@@ -3,7 +3,7 @@ from app import app
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.server_api import ServerApi
 
-def ping_db_server():
+def ping_database():
     
     uri = app.config['DB_URI']
     
@@ -19,22 +19,22 @@ def ping_db_server():
         quit()     
     client.close()
     
-def establish_db_connection():
+def connect_to_database():
     uri = app.config['DB_URI']
     client = AsyncIOMotorClient(uri, server_api=ServerApi('1'))
     return client[app.config['DB_NAME']]
 
-async def insert_new_user():
-    db = establish_db_connection()
+async def insert_new_user(username, password, email, role, active = True, created_at = datetime.datetime.now(), updated_at = datetime.datetime.now()):
+    db = connect_to_database()
     users_collection = db['Users']
     user = {
-        'username': 'test',
-        'password': 'test',
-        'email': 'test@testing.com',
-        'role': 'admin',
+        'username': username,
+        'password': password,
+        'email': email,
+        'role': role,
         'active': True,
-        'created_at': datetime.datetime.now(),
-        'updated_at': datetime.datetime.now(),
+        'created_at': created_at,
+        'updated_at': updated_at,
     }
     result = await users_collection.insert_one(user)
     print(f'Inserted user with id {result.inserted_id}')
