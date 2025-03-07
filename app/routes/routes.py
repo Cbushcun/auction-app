@@ -5,4 +5,4 @@ from flask import Flask, render_template
 
 @app.route('/')
 def home():
-    return render_template('pages/home.html')
+    return render_template('pages/register.html')
