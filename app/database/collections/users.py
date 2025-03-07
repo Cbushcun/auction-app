@@ -1,6 +1,6 @@
 import datetime
 
-from database.util import connect_to_database
+from app.database import util
 
 async def create_user(username: str,
                       password: str,
@@ -9,8 +9,8 @@ async def create_user(username: str,
                       active: bool = True,
                       created_at: datetime = datetime.datetime.now(),
                       updated_at: datetime = datetime.datetime.now()):
-    db = connect_to_database()
-    users_collection = db['Users']
+    db = util.connect_to_database()
+    collection = db['Users']
     user = {
         'username': username,
         'password': password,
@@ -20,6 +20,33 @@ async def create_user(username: str,
         'created_at': created_at,
         'updated_at': updated_at,
     }
-    result = await users_collection.insert_one(user)
+    result = await collection.insert_one(user)
     print(f'Inserted user with id {result.inserted_id}')
     
+async def get_user_by_id(user_id: str):
+    db = util.connect_to_database()
+    collection = db['Users']
+    user = await collection.find_one({'_id': user_id})
+    return user
+
+async def get_user_by_username(username: str):
+    db = util.connect_to_database()
+    collection = db['Users']
+    user = await collection.find_one({'username': username})
+    return user
+
+async def get_all_users():
+    db = util.connect_to_database()
+    collection = db['Users']
+    users = collection.find()
+    return users
+
+async def update_user(user_id: str, user_data: dict):
+    db = util.connect_to_database()
+    collection = db['Users']
+    user = collection.find_one({'_id': user_id})
+    if user is None:
+        print("User not found")
+        return None
+    else: 
+        await collection.update_one({'_id': user_id}, {'$set': user_data})

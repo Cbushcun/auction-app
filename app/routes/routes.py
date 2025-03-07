@@ -1,5 +1,8 @@
 from app import app
 
+from flask import Flask, render_template
+
+
 @app.route('/')
 def home():
-    return "Welcome to my Flask app!"
+    return render_template('pages/home.html')
