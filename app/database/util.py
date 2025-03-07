@@ -24,7 +24,13 @@ def connect_to_database():
     client = AsyncIOMotorClient(uri, server_api=ServerApi('1'))
     return client[app.config['DB_NAME']]
 
-async def insert_new_user(username, password, email, role, active = True, created_at = datetime.datetime.now(), updated_at = datetime.datetime.now()):
+async def create_user(username: str,
+                      password: str,
+                      email: str,
+                      role: str,
+                      active: bool = True,
+                      created_at: datetime = datetime.datetime.now(),
+                      updated_at: datetime = datetime.datetime.now()):
     db = connect_to_database()
     users_collection = db['Users']
     user = {

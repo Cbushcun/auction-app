@@ -4,5 +4,5 @@ from app import app
 
 if __name__ == '__main__':
     util.ping_database()
-    asyncio.run(util.insert_new_user())
+    asyncio.run(util.create_user("admin", "admin", "admin@admin.com", "admin"))
     app.run(debug=True, use_reloader=False)
