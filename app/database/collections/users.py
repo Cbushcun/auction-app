@@ -2,10 +2,12 @@ import datetime
 
 from app.database import util
 
+
+
 async def create_user(username: str,
                       password: str,
                       email: str,
-                      role: str,
+                      role: str = 'user',
                       active: bool = True,
                       created_at: datetime = datetime.datetime.now(),
                       updated_at: datetime = datetime.datetime.now()):
@@ -50,3 +52,14 @@ async def update_user(user_id: str, user_data: dict):
         return None
     else: 
         await collection.update_one({'_id': user_id}, {'$set': user_data})
+        
+        
+async def register_user(username: str, password: str, email: str):
+    user = await get_user_by_username(username)
+    if user is not None:
+        print("ERROR: User already exists")
+        return None
+    else:
+        await create_user(username, password, email)
+        print("User created: ", username, password, email)
+        return await get_user_by_username(username)
