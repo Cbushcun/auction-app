@@ -18,13 +18,13 @@ async def create_user(username: str,
         'password': password,
         'email': email,
         'role': role,
-        'active': True,
+        'active': active,
         'created_at': created_at,
         'updated_at': updated_at,
     }
     result = await collection.insert_one(user)
     print(f'Inserted user with id {result.inserted_id}')
-    
+
 async def get_user_by_id(user_id: str):
     db = util.connect_to_database()
     collection = db['Users']
@@ -50,10 +50,10 @@ async def update_user(user_id: str, user_data: dict):
     if user is None:
         print("User not found")
         return None
-    else: 
+    else:
         await collection.update_one({'_id': user_id}, {'$set': user_data})
-        
-        
+
+
 async def register_user(username: str, password: str, email: str):
     user = await get_user_by_username(username)
     if user is not None:

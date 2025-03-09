@@ -1,0 +1,17 @@
+{% if success is defined %}
+<div class="alert alert-success" role="alert">
+    {{ success }}
+</div>
+{% endif %}
+
+{% if error is defined %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if warning is defined %}
+<div class="alert alert-warning" role="alert">
+    {{ warning }}
+</div>
+{% endif %}
