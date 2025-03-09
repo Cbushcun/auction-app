@@ -1,17 +1,9 @@
-{% if success is defined %}
-<div class="alert alert-success" role="alert">
-    {{ success }}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}" role="alert">
+    {{ message }}
 </div>
+{% endfor %}
 {% endif %}
-
-{% if error is defined %}
-<div class="alert alert-danger" role="alert">
-    {{ error }}
-</div>
-{% endif %}
-
-{% if warning is defined %}
-<div class="alert alert-warning" role="alert">
-    {{ warning }}
-</div>
-{% endif %}
+{% endwith %}
