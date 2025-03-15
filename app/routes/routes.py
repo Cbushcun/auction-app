@@ -1,7 +1,7 @@
 import asyncio
-from flask import request, redirect, url_for, flash, get_flashed_messages
-from flask import render_template
-from app import app, database
+from flask import request, redirect, url_for, flash, get_flashed_messages, render_template, jsonify, session
+from app import app
+from app.database.collections import users
 
 
 @app.route('/')
@@ -16,14 +16,18 @@ def login():
 
     username = request.form['username']
     password = request.form['password']
-    user = asyncio.run(database.collections.users.get_user_by_username(username))
+    user = asyncio.run(users.get_user_by_username(username))
     if user is None:
         flash('User not found', 'danger')
         return redirect(url_for('login'))
     if user['password'] != password:
         flash('Invalid password', 'danger')
         return redirect(url_for('login'))
-    redirect(url_for('home'))
+    session['user_id'] = str(user['_id'])
+    session['username'] = user['username']
+    session['email'] = user['email']
+    session['role'] = user['role']
+    return render_template('pages/home.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -39,11 +43,11 @@ def register():
         flash('Passwords do not match', 'danger')
         return redirect(url_for('register'))
 
-    user = asyncio.run(database.collections.users.get_user_by_username(username))
+    user = asyncio.run(users.get_user_by_username(username))
     if user is not None:
         flash('User already exists', 'error')
         return redirect(url_for('register'))
 
-    asyncio.run(database.collections.users.create_user(username, password, email))
+    asyncio.run(users.create_user(username, password, email))
     flash('User created successfully', 'success')
     return redirect(url_for('login'))
