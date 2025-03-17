@@ -68,14 +68,18 @@ async def update_user(user_id: str, user_data: dict):
     else:
         await collection.update_one({'_id': user_id}, {'$set': user_data})
 
-
-async def register_user(username: str, password: str, email: str):
+async def register_user(username: str, password: str, confirm_password: str, email: str):
+    if password != confirm_password:
+        flash('Passwords do not match', 'danger')
+        return False
+    
     user = await get_user_by_username(username)
+    
     if user is not None:
         print("ERROR: User already exists")
-        return None
+        return False
     else:
         hashed_password = util.hash_password(password)
         await insert_user(username, hashed_password, email)
-        print("User created: ", username, hashed_password, email)
-        return await get_user_by_username(username) # Remove when uneeded, for testing purposes only
+        flash('User created successfully', 'success')
+        return True 

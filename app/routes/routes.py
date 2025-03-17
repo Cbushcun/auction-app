@@ -35,18 +35,13 @@ def register():
     password = request.form['password']
     confirm_password = request.form['confirm_password']
     email = request.form['email']
-    if password != confirm_password:
-        flash('Passwords do not match', 'danger')
-        return redirect(url_for('register'))
+    
+    is_registered = asyncio.run(users.register_user(username, password, confirm_password, email))
 
-    user = asyncio.run(users.get_user_by_username(username))
-    if user is not None:
-        flash('User already exists', 'error')
-        return redirect(url_for('register'))
-
-    asyncio.run(users.register_user(username, password, email))
-    flash('User created successfully', 'success')
-    return redirect(url_for('login'))
+    if is_registered:
+        return redirect(url_for('login'))
+           
+    return redirect(url_for('register'))
 
 @app.route('/404', methods=['GET'])
 def error_404():
