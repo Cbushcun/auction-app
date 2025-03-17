@@ -10,24 +10,40 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/auctions">Auctions</a>
+                <a class="nav-link">Auctions</a>
             </li>
+            {% if session['username'] %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hello, {{
+                    session['username'].title() }}!
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a href="#" class="dropdown-item">Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="#" class="dropdown-item">Orders</a>
+                    <a href="#" class="dropdown-item">Messages</a>
+                    <a href="/logout" class="dropdown-item">Logout</a>
+                </div>
+            </li>
+            {% else %}
             <li class="nav-item">
                 <a class="nav-link" href="/login">Login</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/register">Register</a>
             </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
+    document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
             if (link.pathname === window.location.pathname) {
-                link.classList.add('active');
+                link.classList.add("active");
             }
         });
     });

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" class="container-fluid h-100 w-100 p-0">
+	{% include "components/head.html" %}
+	<body class="d-flex flex-column h-100">
+		{% include "components/navbar.html" %}
+		<section class="container mt-5">
+			<div class="row justify-content-center">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-body text-center">
+							<h2 class="card-title">You have been logged out</h2>
+							<p class="card-text">
+								You will be redirected to the homepage shortly.
+							</p>
+							<a href="{{ url_for('home') }}" class="btn btn-primary"
+								>Go to Homepage</a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		{% include "components/footer.html" %} {% include
+		"components/scripts.html"%}
+		<script>
+			// Redirect to the homepage after 3 seconds
+			setTimeout(function () {
+				window.location.href = "{{ url_for('home') }}";
+			}, 3000);
+		</script>
+	</body>
+</html>

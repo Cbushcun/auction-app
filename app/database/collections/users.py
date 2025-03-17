@@ -4,7 +4,7 @@ from app.database import util
 
 
 
-async def create_user(username: str,
+async def insert_user(username: str,
                       password: str,
                       email: str,
                       role: str = 'user',
@@ -60,6 +60,7 @@ async def register_user(username: str, password: str, email: str):
         print("ERROR: User already exists")
         return None
     else:
-        await create_user(username, password, email)
-        print("User created: ", username, password, email)
-        return await get_user_by_username(username)
+        hashed_password = util.hash_password(password)
+        await insert_user(username, hashed_password, email)
+        print("User created: ", username, hashed_password, email)
+        return await get_user_by_username(username) # Remove when uneeded, for testing purposes only

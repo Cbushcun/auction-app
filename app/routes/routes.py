@@ -3,7 +3,6 @@ from flask import request, redirect, url_for, flash, get_flashed_messages, rende
 from app import app
 from app.database.collections import users
 
-
 @app.route('/')
 def home():
     return render_template('/pages/home.html')
@@ -29,6 +28,11 @@ def login():
     session['role'] = user['role']
     return render_template('pages/home.html')
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return render_template('pages/logout.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -48,6 +52,10 @@ def register():
         flash('User already exists', 'error')
         return redirect(url_for('register'))
 
-    asyncio.run(users.create_user(username, password, email))
+    asyncio.run(users.register_user(username, password, email))
     flash('User created successfully', 'success')
     return redirect(url_for('login'))
+
+@app.route('/404', methods=['GET'])
+def error_404():
+    return render_template('errors/404.html')
