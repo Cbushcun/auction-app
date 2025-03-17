@@ -12,19 +12,19 @@ async def insert_user(username: str,
                       active: bool = True,
                       created_at: datetime = datetime.datetime.now(),
                       updated_at: datetime = datetime.datetime.now()):
+    hashed_password = util.hash_password(password)
     db = util.connect_to_database()
     collection = db['Users']
     user = {
         'username': username,
-        'password': password,
+        'password': hashed_password,
         'email': email,
         'role': role,
         'active': active,
         'created_at': created_at,
         'updated_at': updated_at,
     }
-    result = await collection.insert_one(user)
-    print(f'Inserted user with id {result.inserted_id}')
+    await collection.insert_one(user)
     
 async def login_user(username: str, password: str):
     user = await get_user_by_username(username)
@@ -76,10 +76,9 @@ async def register_user(username: str, password: str, confirm_password: str, ema
     user = await get_user_by_username(username)
     
     if user is not None:
-        print("ERROR: User already exists")
+        flash('User already exists', 'danger')
         return False
     else:
-        hashed_password = util.hash_password(password)
-        await insert_user(username, hashed_password, email)
+        await insert_user(username, password, email)
         flash('User created successfully', 'success')
         return True 
