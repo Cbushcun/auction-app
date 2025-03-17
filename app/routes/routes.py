@@ -12,21 +12,13 @@ def login():
     if request.method == 'GET':
         get_flashed_messages()
         return render_template('pages/login.html')
-
     username = request.form['username']
     password = request.form['password']
-    user = asyncio.run(users.get_user_by_username(username))
-    if user is None:
-        flash('User not found', 'danger')
-        return redirect(url_for('login'))
-    if user['password'] != password:
-        flash('Invalid password', 'danger')
-        return redirect(url_for('login'))
-    session['user_id'] = str(user['_id'])
-    session['username'] = user['username']
-    session['email'] = user['email']
-    session['role'] = user['role']
-    return render_template('pages/home.html')
+    login_success = asyncio.run(users.login_user(username, password))
+    if login_success:
+        return render_template('pages/home.html')
+    return redirect(url_for('login'))
+    
 
 @app.route('/logout', methods=['GET'])
 def logout():

@@ -1,6 +1,7 @@
-import datetime
-
 from app.database import util
+from flask import flash, session
+
+import datetime
 
 
 
@@ -24,6 +25,20 @@ async def insert_user(username: str,
     }
     result = await collection.insert_one(user)
     print(f'Inserted user with id {result.inserted_id}')
+    
+async def login_user(username: str, password: str):
+    user = await get_user_by_username(username)
+    if user is None:
+        flash('User not found', 'danger')
+        return False
+    if not util.verify_password(password, user['password']):
+        flash('Invalid password', 'danger')
+        return False
+    session['user_id'] = str(user['_id'])
+    session['username'] = user['username']
+    session['email'] = user['email']
+    session['role'] = user['role']
+    return True
 
 async def get_user_by_id(user_id: str):
     db = util.connect_to_database()
