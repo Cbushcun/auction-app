@@ -43,6 +43,10 @@ def register():
            
     return redirect(url_for('register'))
 
+@app.route('/auctions', methods=['GET'])
+def auctions():
+    return render_template('pages/auctions.html')
+
 @app.route('/404', methods=['GET'])
 def error_404():
     return render_template('errors/404.html')

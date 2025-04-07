@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% include "components/head.html" %}
+	<body>
+		{% include "components/navbar.html" %}
+
+		<!-- <section class="search-bar">
+			<form action="#" method="GET">
+				<input type="text" name="query" placeholder="Search for auctions..." />
+				<button type="submit">Search</button>
+			</form>
+		</section> -->
+
+		<section class="container d-flex flex-wrap">
+			{% for i in range(50) %} {% include 'components/card.html' %} {% endfor %}
+		</section>
+		{% include "components/footer.html" %} {% include
+		"components/scripts.html"%}
+	</body>
+</html>

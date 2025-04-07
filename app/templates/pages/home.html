@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" class="container-fluid h-100 w-100 p-0">
+	{% include "components/head.html" %}
 
-{% include "components/head.html" %}
+	<body class="d-flex flex-column h-100">
+		{% include "components/navbar.html" %}
+		<section class="container">
+			<div class="jumbotron text-center">
+				<h1 class="display-4">Welcome to AuctionApp</h1>
+				<p class="lead">Bid on exclusive items and win amazing deals!</p>
+				{% with button_text="Get Started" %} {% include
+				"components/button_lg.html" %} {% endwith %}
+			</div>
 
-<body class="d-flex flex-column h-100">
-    {% include "components/navbar.html" %}
-    <section class="container">
-        <div class="jumbotron text-center">
-            <h1 class="display-4">Welcome to AuctionApp</h1>
-            <p class="lead">Bid on exclusive items and win amazing deals!</p>
-            {% with button_text="Get Started" %}
-            {% include "components/button_lg.html" %}
-            {% endwith %}
-        </div>
-
-        <h2 class="text-center mb-4">Featured Auctions</h2>
-        <div class="row">
-            {% include "components/card.html" %}
-            {% include "components/card.html" %}
-            {% include "components/card.html" %}
-        </div>
-    </section>
-    {% include "components/footer.html" %}
-
-    {% include "components/scripts.html" %}
-</body>
-
+			<h2 class="text-center mb-4">Featured Auctions</h2>
+			<div class="row">
+				{% include "components/card.html" %} {% include "components/card.html"
+				%} {% include "components/card.html" %}
+			</div>
+		</section>
+		{% include "components/footer.html" %} {% include "components/scripts.html"
+		%}
+	</body>
 </html>
