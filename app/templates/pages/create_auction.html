@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% include "components/head.html" %}
+	<body>
+		{% include "components/navbar.html" %}
+		<div class="container mt-5">
+			<h1 class="text-center mb-4">Create Auction</h1>
+			<form
+				action="/create-auction"
+				method="POST"
+				enctype="multipart/form-data"
+			>
+				<!-- Auction Name -->
+				<div class="mb-3">
+					<label for="auction-name" class="form-label">Auction Name:</label>
+					<input
+						type="text"
+						class="form-control"
+						id="auction-name"
+						name="name"
+						required
+					/>
+				</div>
+
+				<!-- Photos -->
+				<div class="mb-3">
+					<label for="auction-photos" class="form-label">Add Photos:</label>
+					<input
+						type="file"
+						class="form-control"
+						id="auction-photos"
+						name="photos"
+						accept="image/*"
+						multiple
+						required
+					/>
+				</div>
+
+				<!-- End Date -->
+				<div class="mb-3">
+					<label for="end-date" class="form-label">End Date:</label>
+					<input
+						type="datetime-local"
+						class="form-control"
+						id="end-date"
+						name="end_date"
+						required
+					/>
+				</div>
+
+				<!-- Optional Start Date -->
+				<div class="mb-3">
+					<label for="start-date" class="form-label"
+						>Start Date (Optional):</label
+					>
+					<input
+						type="datetime-local"
+						class="form-control"
+						id="start-date"
+						name="start_date"
+					/>
+				</div>
+
+				<!-- Description -->
+				<div class="mb-3">
+					<label for="description" class="form-label">Description:</label>
+					<textarea
+						class="form-control"
+						id="description"
+						name="description"
+						rows="5"
+						required
+					></textarea>
+				</div>
+
+				<!-- Optional Buy It Now Price -->
+				<div class="mb-3">
+					<label for="buy-it-now" class="form-label"
+						>Buy It Now Price (Optional):</label
+					>
+					<input
+						type="number"
+						class="form-control"
+						id="buy-it-now"
+						name="buy_it_now"
+						step="0.01"
+						min="0"
+					/>
+				</div>
+
+				<!-- Submit Button -->
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Create Auction</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- Bootstrap JS Bundle -->
+		{% include "components/footer.html" %} {% include "components/scripts.html"
+		%}
+	</body>
+</html>

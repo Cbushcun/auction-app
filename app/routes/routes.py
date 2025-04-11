@@ -47,6 +47,10 @@ def register():
 def auctions():
     return render_template('pages/auctions.html')
 
+@app.route('/auctions/create', methods=['GET', 'POST'])
+def create_auction():
+    return render_template('pages/create_auction.html')
+
 @app.route('/404', methods=['GET'])
 def error_404():
     return render_template('errors/404.html')
